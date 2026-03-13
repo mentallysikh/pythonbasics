@@ -1,0 +1,19 @@
+# Python Basic Assignment 
+
+This repository contains my solutions for the Python Basic Assignment.
+
+## Files Included:
+* `q1_validation.py`: IPv4 and Gmail validation (Regex and Manual).
+* `q2_withregex` / `q2_withoutregex`: Secure 16-character password generator.
+* `q3_Uptime`: URL health monitor with logging and exponential backoff.
+* `q4_updater.py`: Automated Linux package updater tool.
+* `q5_duplicate_finder.py`: Duplicate file identification using SHA-256.
+* `q6_visulizer.py`: Custom ASCII table formatter for CSV files.
+* `q7_ec2_recommend`: EC2 instance optimization recommender.
+* `q8_json_processer`: E-commerce JSON data restructuring to CSV.
+* `q9_vcs_system.py`: Simulated File Version Control System.
+* `q10_tuple_demo.py`: Demonstration of modifying mutable objects in tuples.
+
+## How to Run
+Ensure you have Python 3 installed. Run any script from the terminal using:
+`python3 <filename>`

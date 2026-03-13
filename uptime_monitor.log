@@ -1,0 +1,42 @@
+2026-03-13 15:03:25,426 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:03:25,426 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:03:25,453 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:03:25,453 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:03:25,466 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:03:25,466 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:03:26,046 - INFO - URL: https://www.google.com/ | Status: 200
+2026-03-13 15:03:36,078 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:03:36,078 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:03:36,091 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:03:36,091 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:03:36,108 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:03:36,108 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:03:36,905 - INFO - URL: https://www.google.com/ | Status: 200
+2026-03-13 15:03:57,138 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:03:57,138 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:03:57,173 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:03:57,173 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:03:57,190 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:03:57,190 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:03:57,733 - INFO - URL: https://www.google.com/ | Status: 200
+2026-03-13 15:04:37,971 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:04:37,971 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:04:38,136 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:04:38,136 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:04:38,217 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:04:38,217 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:04:39,194 - INFO - URL: https://www.google.com/ | Status: 200
+2026-03-13 15:05:39,269 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:05:39,269 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:05:39,301 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:05:39,301 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:05:39,314 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:05:39,314 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:05:39,862 - INFO - URL: https://www.google.com/ | Status: 200
+2026-03-13 15:06:39,926 - INFO - URL: http://www.example.com/nonexistentpage | Status: 404
+2026-03-13 15:06:39,926 - WARNING - 4xx Error: http://www.example.com/nonexistentpage
+2026-03-13 15:06:39,950 - INFO - URL: http://httpstat.us/404 | Status: 404
+2026-03-13 15:06:39,950 - WARNING - 4xx Error: http://httpstat.us/404
+2026-03-13 15:06:39,963 - INFO - URL: http://httpstat.us/500 | Status: 404
+2026-03-13 15:06:39,963 - WARNING - 4xx Error: http://httpstat.us/500
+2026-03-13 15:06:40,518 - INFO - URL: https://www.google.com/ | Status: 200

@@ -1,0 +1,55 @@
+def get_ec2_recommendation(instance_type, cpu_utilization):
+    # Hierarchy provided in assignment [cite: 101]
+    sizes = [
+        "nano", "micro", "small", "medium", "large", 
+        "xlarge", "2xlarge", "4xlarge", "8xlarge", 
+        "16xlarge", "32xlarge"
+    ]
+    
+    try:
+        family, current_size = instance_type.split('.')
+    except ValueError:
+        return "Invalid instance format. Use 'family.size' (e.g., t2.micro)."
+
+    if current_size not in sizes:
+        return f"Size '{current_size}' not recognized in hierarchy."
+
+    current_idx = sizes.index(current_size)
+    recommended_size = current_size
+    status = ""
+
+    # Recommendation Logic [cite: 97, 98, 99, 102, 104]
+    if cpu_utilization < 20:
+        status = "Underutilized"
+        if current_idx > 0:
+            recommended_size = sizes[current_idx - 1]
+    elif cpu_utilization > 80:
+        status = "Overutilized"
+        if current_idx < len(sizes) - 1:
+            recommended_size = sizes[current_idx + 1]
+    else:
+        status = "Optimized"
+        # Suggest same size, latest generation (dummy logic for 'latest' type)
+        family = family.replace('2', '3') if '2' in family else family
+
+    recommended_ec2 = f"{family}.{recommended_size}"
+
+    # Prepare data for Table Visualizer
+    table_headers = ["Serial No.", "Current EC2", "Current CPU", "Status", "Recommended EC2"]
+    row_data = ["1", instance_type, f"{cpu_utilization}%", status, recommended_ec2]
+    
+    return [table_headers, row_data]
+
+if __name__ == "__main__":
+    # Example Input from assignment [cite: 107-110]
+    result = get_ec2_recommendation("t2.large", 20)
+    
+    if isinstance(result, list):
+        # Using a simplified version of the visualizer from Q6
+        col_widths = [max(len(str(item)) for item in col) for col in zip(*result)]
+        border = "+" + "+".join("-" * (w + 2) for w in col_widths) + "+"
+        print(border)
+        for i, row in enumerate(result):
+            print("| " + " | ".join(str(val).ljust(col_widths[j]) for j, val in enumerate(row)) + " |")
+            if i == 0: print(border)
+        print(border)

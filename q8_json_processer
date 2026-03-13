@@ -1,0 +1,126 @@
+import json
+import csv
+import os
+
+def process_ecommerce_data(input_file, output_file):
+    """
+    Reads sales.json, performs calculations, sorts by total spend per customer,
+    and exports to a CSV.
+    """
+    if not os.path.exists(input_file):
+        print(f"Error: {input_file} not found.")
+        return
+
+    try:
+        with open(input_file, 'r') as f:
+            data = json.load(f)
+
+        all_products_flat = []
+        
+        # 1. Extract and Restructure Data [cite: 118, 126]
+        for order in data.get('orders', []):
+            order_id = order.get('order_id', 'N/A')
+            customer_name = order.get('customer', {}).get('name', 'N/A')
+            shipping_address = order.get('shipping_address', 'N/A')
+            # Assuming country code might be part of address or separate; 
+            # using 'N/A' as a placeholder per constraints [cite: 150]
+            country_code = "N/A" 
+            
+            items = order.get('items', [])
+            
+            # 2. Perform Order-Level Calculations [cite: 119-122]
+            # Total Value = sum of (price * quantity) for all items in the order
+            order_base_value = sum(item.get('price', 0) * item.get('quantity', 0) for item in items)
+            
+            # Discount (10% if total order value > $100) [cite: 121, 142]
+            order_discount = order_base_value * 0.10 if order_base_value > 100 else 0.0
+            
+            # Shipping Cost ($5 per item) [cite: 122, 143]
+            total_items = sum(item.get('quantity', 0) for item in items)
+            order_shipping_cost = total_items * 5.0
+            
+            # Final Total for the order [cite: 136, 144]
+            # (Note: Logic applies discount to product value, then adds shipping)
+            order_final_total = (order_base_value - order_discount) + order_shipping_cost
+
+            for item in items:
+                price = item.get('price', 0)
+                qty = item.get('quantity', 0)
+                item_total_value = price * qty # [cite: 120, 132]
+                
+                # Create flat record for each product [cite: 126, 148]
+                product_record = {
+                    "Order ID": order_id,
+                    "Customer Name": customer_name,
+                    "Product Name": item.get('name', 'N/A'),
+                    "Product Price": price,
+                    "Quantity Purchased": qty,
+                    "Total Value": item_total_value,
+                    "Discount": order_discount,
+                    "Shipping Cost": order_shipping_cost,
+                    "Final Total": order_final_total,
+                    "Shipping Address": shipping_address,
+                    "Country Code": country_code
+                }
+                all_products_flat.append(product_record)
+
+        # 3. Sort by Final Total amount spent 
+        # Sorting the list based on the 'Final Total' column
+        all_products_flat.sort(key=lambda x: x['Final Total'], reverse=True)
+
+        # 4. Output to CSV 
+        headers = [
+            "Order ID", "Customer Name", "Product Name", "Product Price", 
+            "Quantity Purchased", "Total Value", "Discount", "Shipping Cost", 
+            "Final Total", "Shipping Address", "Country Code"
+        ]
+
+        with open(output_file, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(all_products_flat)
+
+        print(f"Success: Data processed and saved to {output_file}")
+        
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    # Create the sales.json file based on the provided content [cite: 151-152]
+    sales_content = {
+        'orders': [
+            {
+                'order_id': 'O001', 
+                'customer': {'id': 'C001', 'name': 'John Doe', 'email': 'john@example.com'}, 
+                'items': [
+                    {'product_id': 'P001', 'name': 'Laptop', 'price': 999.99, 'quantity': 1}, 
+                    {'product_id': 'P002', 'name': 'Mouse', 'price': 25.99, 'quantity': 2}
+                ], 
+                'shipping_address': '123 Main St, Springfield, IL'
+            }, 
+            {
+                'order_id': 'O002', 
+                'customer': {'id': 'C002', 'name': 'Jane Smith', 'email': 'jane@example.com'}, 
+                'items': [
+                    {'product_id': 'P003', 'name': 'Phone', 'price': 599.99, 'quantity': 1}
+                ], 
+                'shipping_address': '456 Oak St, Seattle, WA'
+            }, 
+            {
+                'order_id': 'O003', 
+                'customer': {'id': 'C001', 'name': 'John Doe', 'email': 'john@example.com'}, 
+                'items': [
+                    {'product_id': 'P004', 'name': 'Headphones', 'price': 149.99, 'quantity': 1}, 
+                    {'product_id': 'P005', 'name': 'Keyboard', 'price': 99.99, 'quantity': 1}
+                ], 
+                'shipping_address': '123 Main St, Springfield, IL'
+            }
+        ]
+    }
+
+    # Save as sales.json first
+    with open("sales.json", "w") as jf:
+        json.dump(sales_content, jf, indent=4)
+
+    # Process the file
+    process_ecommerce_data("sales.json", "processed_orders.csv")

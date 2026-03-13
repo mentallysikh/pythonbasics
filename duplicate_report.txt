@@ -1,0 +1,9 @@
+DUPLICATE FILE REPORT
+==============================
+Checksum: 473c86fe32b34baecdac67e0f5d67719b769fb2ee0dcc4987944be8c47d4a5a7
+  - /home/randeep/Downloads/test/file.html
+  - /home/randeep/Downloads/test/file (Copy 2).html
+  - /home/randeep/Downloads/test/file (Copy 4).html
+  - /home/randeep/Downloads/test/file (Copy 3).html
+  - /home/randeep/Downloads/test/file (Copy 5).html
+------------------------------

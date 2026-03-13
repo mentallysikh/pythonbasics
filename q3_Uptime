@@ -1,0 +1,80 @@
+import requests
+import time
+import logging
+
+# 1. Configuration & Logging Setup [cite: 42]
+logging.basicConfig(
+    filename="uptime_monitor.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+# URLs to monitor as requested [cite: 21-31]
+URLS = [
+    "http://www.example.com/nonexistentpage",
+    "http://httpstat.us/404",
+    "http://httpstat.us/500",
+    "https://www.google.com/"
+]
+
+# Track consecutive errors for Exponential Backoff 
+consecutive_errors = {url: 0 for url in URLS}
+
+def check_uptime():
+    """Checks the status of each URL and handles reporting."""
+    for url in URLS:
+        print(f"Checking URL: {url}")
+        try:
+            # Use a timeout to prevent the script from hanging [cite: 33]
+            response = requests.get(url, timeout=10)
+            status_code = response.status_code
+            reason = response.reason
+            
+            # 5. Status Message Output [cite: 39]
+            print(f"Status Code: {status_code} {reason}")
+            logging.info(f"URL: {url} | Status: {status_code}")
+
+            # 3. Error Detection (4xx or 5xx) [cite: 35]
+            if 400 <= status_code < 500:
+                print(f"ALERT: 4xx error encountered for URL: {url}")
+                logging.warning(f"4xx Error: {url}")
+                consecutive_errors[url] += 1
+            elif 500 <= status_code < 600:
+                print(f"ALERT: 5xx error encountered for URL: {url}")
+                logging.error(f"5xx Error: {url}")
+                consecutive_errors[url] += 1
+            else:
+                print("The website is UP and running.")
+                consecutive_errors[url] = 0 # Reset error count on success
+
+        except requests.exceptions.RequestException as e:
+            print(f"ALERT: Connection failed for {url}")
+            logging.error(f"Connection failed: {url} | Error: {e}")
+            consecutive_errors[url] += 1
+        
+        print("-" * 30)
+
+def main():
+    """4. Loop and Monitor cycle [cite: 38]"""
+    while True:
+        check_uptime()
+        
+        # Base wait interval [cite: 38]
+        base_wait = 10 
+        
+        # Bonus: Simple Exponential Backoff logic 
+        # Increases wait time if any URL is currently failing
+        max_errors = max(consecutive_errors.values())
+        if max_errors > 0:
+            # wait = base * 2^errors (capped at 60s for demo)
+            wait_time = min(base_wait * (2 ** (max_errors - 1)), 60)
+            if wait_time > base_wait:
+                print(f"Consecutive errors detected. Increasing wait to {wait_time}s...")
+        else:
+            wait_time = base_wait
+
+        print(f"Next check in {wait_time} seconds...\n")
+        time.sleep(wait_time)
+
+if __name__ == "__main__":
+    main()
